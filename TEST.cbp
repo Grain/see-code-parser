@@ -32,13 +32,11 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
-			<Add option="-ljansson" />
-			<Add directory="D:/jansson-2.5/src" />
+			<Add option="-Iinclude" />
 		</Compiler>
-		<Linker>
-			<Add directory="D:/jansson-2.5/src/.libs" />
-		</Linker>
+		<Unit filename="include/function.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="src/function.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
