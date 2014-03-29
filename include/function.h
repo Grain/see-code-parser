@@ -23,9 +23,7 @@ class Function
         };
 
         struct node parse(unsigned int, unsigned int);
-        string getStatement(unsigned int, unsigned int, unsigned int, unsigned int);
-        int isStatement(unsigned int *, unsigned int *);
-        void printNode(struct node);
+        void printNode(struct node, int);
         string trim(string);
 
         string header;
