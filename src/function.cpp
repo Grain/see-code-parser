@@ -62,11 +62,11 @@ struct Function::node Function::parse(unsigned int start, unsigned int stop)
         {
             controlFlow = 2;
         }
-        else if (a + 3 <= stop && contents.at(a) == 'd' && contents.at(a + 1) == 'o' && contents.at(a + 2) == ' ')    //do
+        else if (a + 2 <= stop && contents.at(a) == 'd' && contents.at(a + 1) == 'o')    //do
         {
             isDo = true;
         }
-        else if (a + 4 <= stop && contents.at(a) == 'f' && contents.at(a + 1) == 'o' && contents.at(a + 2) == 'r' && contents.at(a + 3) == ' ')  //for
+        else if (a + 3 <= stop && contents.at(a) == 'f' && contents.at(a + 1) == 'o' && contents.at(a + 2) == 'r')  //for
         {
             controlFlow = 3;
         }
@@ -74,11 +74,11 @@ struct Function::node Function::parse(unsigned int start, unsigned int stop)
         {
             controlFlow = 6;
         }
-        else if (a + 5 <= stop && contents.at(a) == 'e' && contents.at(a + 1) == 'l' && contents.at(a + 2) == 's' && contents.at(a + 3) == 'e' && contents.at(a + 4) == ' ')  //else
+        else if (a + 4 <= stop && contents.at(a) == 'e' && contents.at(a + 1) == 'l' && contents.at(a + 2) == 's' && contents.at(a + 3) == 'e')  //else
         {
             controlFlow = 12;
         }
-        else if (a + 6 <= stop && contents.at(a) == 'w' && contents.at(a + 1) == 'h' && contents.at(a + 2) == 'i' && contents.at(a + 3 == 'l' && contents.at(a + 4) == 'e') && contents.at(a + 5) == ' ') //while
+        else if (a + 5 <= stop && contents.at(a) == 'w' && contents.at(a + 1) == 'h' && contents.at(a + 2) == 'i' && contents.at(a + 3 == 'l' && contents.at(a + 4) == 'e')) //while
         {
             controlFlow = 4;
         }
