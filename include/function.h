@@ -29,7 +29,7 @@ class Function
         string trim(string);
 
         string header;
-        vector<string> contents;
+        string contents;
         struct node statements;
 };
 

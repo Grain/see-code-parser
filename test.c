@@ -35,30 +35,19 @@ int main()
 
 	if (i == 2)
 		printf("no block!");
+	if (i == 2)
+	{
+		printf("block!");
+	}
+	if (i == 2)
+	{
+		printf("block!");
+	}
+
 	
-	if (i == 1)
-	{
-		printf("Test\n");
-		printf("Test\n");
-		printf("Test\n");
-		printf("Test\n");
-		printf("Test\n");
-		printf("Test\n");
-		printf("Test\n");	
-		
-		
-		
-		if (i == 1)
-	{
-		printf("Test\n");
-		printf("Test\n");
-		printf("Test\n");
-		printf("Test\n");
-		printf("Test\n");
-		printf("Test\n");
-		printf("Test\n");
-	}
-	}
+	if (i == 2)
+	
+	
 	
 	return 0;			}
 

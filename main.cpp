@@ -120,7 +120,7 @@ void makeFunctions(vector<string> fileContents)
 //                        cout << functionHeader << endl;
 
                         vector<string> functionContents;
-//TODO: MAYBE STRIP WHITESPACE AT BEGIN AND END
+
                         for (int a = startPos[0]; a <= stopPos[0]; ++a) //make function contents vector
                         {
                             if (a == startPos[0])   //first line
