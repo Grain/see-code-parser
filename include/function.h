@@ -16,7 +16,7 @@ class Function
         Function();
         virtual ~Function();
 
-        void outputFile(string);
+        void outputFile(string);    //TO JSON
     protected:
     private:
         struct node

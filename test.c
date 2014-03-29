@@ -1,60 +1,40 @@
+#include <assert.h>
+#include <stdlib.h>
 #include <stdio.h>
 
-int main()
+void subset(int arr[], int len, int sum)
 {
-    char input;	//hi//hi//hi
-	
-    do
+    assert(arr != NULL);
+    assert(len >= 0);
+
+    int solns = 0;
+
+    for (int a = 0; a < len; ++a)
     {
-	1 = 0;
-    } while (1);
+        for (int b = a + 1; b < len; ++b)
+        {
+            for (int c = b + 1; c < len; ++c)
+            {
+                if (arr[a] + arr[b] + arr[c] == sum)
+                {
+                    printf("%d + %d + %d = %d\n", arr[a], arr[b], arr[c], sum);
+                    solns++;
+                }
+            }
+        }
+    }
 
-    do
-	    printf("hi");
-    while(1);
-
-	/*		*/
-    do
+    if (solns > 0)
     {
-        input = getchar();
-
-        if(input == 'A' || input == 'B' || input == 'C')
-        {
-            printf/*("2");*/
-        }
-        else if(input == 'D' || input == 'E' || input == 'F')
-        {
-            printf("3");
-        }
-        else if(input == 'G' || input == 'H' || input == 'I')
-        {
-            printf("4");
-        }
-        else if(input == 'J' || input == 'K' || input == 'L')
-        {
-            printf("5");
-        }
-        else if(input == 'M' || input == 'N' || input == 'O')
-        {
-            printf("6");
-        }
-        else if(input == 'P' || input == 'Q' || input == 'R' || input == 'S')
-        {
-            printf("7");
-        }
-        else if(input == 'T' || input == 'U' || input == 'V')
-        {
-            printf("8");
-        }
-        else if(input == 'W' || input == 'X' || input == 'Y' || input == 'Z')
-        {
-            printf("9");
-        }
-        else if(input != EOF)
-        {
-            printf("%c", input);
-        }
-
-    } while(input != EOF);
+        printf("A total of %d solution(s)\n", solns);
+    }
+    else if (1 + 1)
+    {
+        printf("No solution(s)\n");
+    }
+    else
+    {
+	HIIII;
+    }
 }
 

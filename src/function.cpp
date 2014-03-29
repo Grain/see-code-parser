@@ -70,6 +70,14 @@ struct Function::node Function::parse(unsigned int start, unsigned int stop)
         {
             controlFlow = 3;
         }
+        else if (a + 7 <= stop && contents.at(a) == 'e' && contents.at(a + 1) == 'l' && contents.at(a + 2) == 's' && contents.at(a + 3) == 'e' && contents.at(a + 4) == ' ' && contents.at(a + 5) == 'i' && contents.at(a + 6) == 'f')  //else if
+        {
+            controlFlow = 6;
+        }
+        else if (a + 4 <= stop && contents.at(a) == 'e' && contents.at(a + 1) == 'l' && contents.at(a + 2) == 's' && contents.at(a + 3) == 'e')  //else
+        {
+            controlFlow = 12;
+        }
         else if (a + 5 <= stop && contents.at(a) == 'w' && contents.at(a + 1) == 'h' && contents.at(a + 2) == 'i' && contents.at(a + 3 == 'l' && contents.at(a + 4) == 'e')) //while
         {
             controlFlow = 4;
@@ -79,24 +87,32 @@ struct Function::node Function::parse(unsigned int start, unsigned int stop)
         {
             string flowStatement;
             int level = 0;
-            while (a < stop)        //get the flow control header (eg. if (soemthing) or for (i = 0;;))
+            if (controlFlow == 12)   //else
             {
-                flowStatement.push_back(contents.at(a));
-
-                if (contents.at(a) == '(')
-                    level++;
-                else if (contents.at(a) == ')')
-                {
-                    level--;
-                    if (level == 0)
-                    {
-                        break;
-                        controlFlow = 0;
-                    }
-                }
-
-                a++;
+                flowStatement = "else";
             }
+            else
+            {
+                while (a < stop)        //get the flow control header (eg. if (soemthing) or for (i = 0;;))
+                {
+                    flowStatement.push_back(contents.at(a));
+
+                    if (contents.at(a) == '(')
+                        level++;
+                    else if (contents.at(a) == ')')
+                    {
+                        level--;
+                        if (level == 0)
+                        {
+                            break;
+                            controlFlow = 0;
+                        }
+                    }
+
+                    a++;
+                }
+            }
+
 
 //            cout << flowStatement << endl;
 
@@ -257,7 +273,7 @@ struct Function::node Function::parse(unsigned int start, unsigned int stop)
 }
 
 
-string Function::printList(vector<struct node> sequence)
+string Function::printList(vector<struct node> sequence)    //to JSON
 {
     string output;
 
@@ -275,6 +291,10 @@ string Function::printList(vector<struct node> sequence)
                 type = "while";
             else if (sequence.at(i).statement.at(0) == 'd')
                 type = "do";
+            else if (sequence.at(i).statement.at(0) == 'e' && sequence.at(i).statement.size() > 6)
+                type = "else if";
+            else if (sequence.at(i).statement.at(0) == 'e')
+                type = "else";
             output.append("\"type\":\"");
             output.append(type);
             output.append("\", \"code\":\"");
@@ -289,7 +309,6 @@ string Function::printList(vector<struct node> sequence)
             output.append(sequence.at(i).statement);
             output.append("\", \"inner\":[]");
         }
-
 
         output.append("},");
     }
