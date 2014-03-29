@@ -9,12 +9,13 @@ Function::Function(string a, vector<string> b)
     {
         b.at(i) = trim(b.at(i));
         contents.append(b.at(i));
+        cout << b.at(i) << endl;
     }
 
     statements = parse(0, contents.size());
     statements.statement = header;
 
-    printNode(statements, 1);
+//    printNode(statements, 1);
 }
 
 Function::Function()

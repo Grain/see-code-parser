@@ -1,30 +1,50 @@
+#include <stdio.h>
+
 int main()
 {
-	int i = 1;
+    char input;	//hi//hi//hi
+	/*		*/
+    do
+    {
+        input = getchar();
 
-	if (i == 1)
-		printf("no block!");
-	if (i == 2)
-	{
-		printf("block!");
-	}
-	if (i == 3)
-	{
-		for (int i = 0; i < l; ++i)
-		{
-			while (i == 0)
-			{
-				b = 0;
-				a = 1;
-				c = 0;
-			}
+        if(input == 'A' || input == 'B' || input == 'C')
+        {
+            printf/*("2");*/
+        }
+        else if(input == 'D' || input == 'E' || input == 'F')
+        {
+            printf("3");
+        }
+        else if(input == 'G' || input == 'H' || input == 'I')
+        {
+            printf("4");
+        }
+        else if(input == 'J' || input == 'K' || input == 'L')
+        {
+            printf("5");
+        }
+        else if(input == 'M' || input == 'N' || input == 'O')
+        {
+            printf("6");
+        }
+        else if(input == 'P' || input == 'Q' || input == 'R' || input == 'S')
+        {
+            printf("7");
+        }
+        else if(input == 'T' || input == 'U' || input == 'V')
+        {
+            printf("8");
+        }
+        else if(input == 'W' || input == 'X' || input == 'Y' || input == 'Z')
+        {
+            printf("9");
+        }
+        else if(input != EOF)
+        {
+            printf("%c", input);
+        }
 
-			while (i == 0)
-			{
-				a = 0;
-			}
-		}	
-	}
-	
-	return 0;		
+    } while(input != EOF);
 }
+

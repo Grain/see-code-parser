@@ -202,6 +202,59 @@ void makeFunctions(vector<string> fileContents)
     }
 }
 
+vector<string> removeComments(vector<string> fileContents)
+{
+    for (unsigned int a = 0; a < fileContents.size(); ++a)
+    {
+        for (unsigned int b = 0; b < fileContents.at(a).size() - 1; ++b)
+        {
+            if (fileContents.at(a).at(b) == '/' && fileContents.at(a).at(b + 1) == '/')
+            {
+                if (b == 0)
+                    fileContents.erase(fileContents.begin() + a);
+                else
+                    fileContents.at(a).erase(b);
+            }
+        }
+    }
+
+    for (unsigned int a = 0; a < fileContents.size(); ++a)
+    {
+        for (unsigned int b = 0; b < fileContents.at(a).size() - 1; ++b)
+        {
+            if (fileContents.at(a).at(b) == '/' && fileContents.at(a).at(b + 1) == '*') //found start
+            {
+                for (unsigned int c = a; c < fileContents.size(); ++c)
+                {
+                    for (unsigned int d = b + 2; d < fileContents.at(c).size() - 1; ++d)
+                    {
+                        if (fileContents.at(c).at(d) == '*' && fileContents.at(c).at(d + 1) == '/') //found end
+                        {
+                            if (b != 0)
+                                fileContents.at(a).erase(fileContents.at(a).begin() + b, fileContents.at(a).end());
+                            if (a != c)
+                            {
+                                if (d + 2 != fileContents.at(c).size())
+                                    fileContents.at(c).erase(fileContents.at(c).begin() + d, fileContents.at(c).end());
+                                if (b == 0 && d + 2 == fileContents.at(c).size())
+                                    fileContents.erase(fileContents.begin() + a, fileContents.begin() + c);
+                                else if (b == 0)
+                                    fileContents.erase(fileContents.begin() + a, fileContents.begin() + c - 1);
+                                else if (d + 2 == fileContents.at(c).size())
+                                    fileContents.erase(fileContents.begin() + a + 1, fileContents.begin() + c);
+                                fileContents.erase(fileContents.begin() + a + 1, fileContents.begin() + c - 1);
+                            }
+                            goto outside;
+                        }
+                    }
+                }
+            }
+            outside:;
+        }
+    }
+
+    return fileContents;
+}
 
 int main(int argc, char* argv[])
 {
@@ -223,7 +276,7 @@ int main(int argc, char* argv[])
         cout << "Must provide a c source file as an argument" << endl;
         return 0;
     }
-    //strip out comments here
+    fileContents = removeComments(fileContents);
     makeFunctions(fileContents);
     //output functions somehow
 }
