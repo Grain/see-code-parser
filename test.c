@@ -3,6 +3,16 @@
 int main()
 {
     char input;	//hi//hi//hi
+	
+    do
+    {
+	1 = 0;
+    } while (1);
+
+    do
+	    printf("hi");
+    while(1);
+
 	/*		*/
     do
     {

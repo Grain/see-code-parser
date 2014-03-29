@@ -46,6 +46,8 @@ vector<string> readFile(char * filename)
             }
         }
 
+        input.close();
+
 //        for (unsigned int i = 0; i < file.size(); ++i)
 //        {
 //            cout << file.at(i) << endl;
@@ -55,7 +57,7 @@ vector<string> readFile(char * filename)
     return file;
 }
 
-void makeFunctions(vector<string> fileContents)
+vector<Function> makeFunctions(vector<string> fileContents)
 {
     vector<Function> functions;
 
@@ -200,6 +202,8 @@ void makeFunctions(vector<string> fileContents)
             }
         }
     }
+
+    return functions;
 }
 
 vector<string> removeComments(vector<string> fileContents)
@@ -277,6 +281,12 @@ int main(int argc, char* argv[])
         return 0;
     }
     fileContents = removeComments(fileContents);
-    makeFunctions(fileContents);
-    //output functions somehow
+    functions = makeFunctions(fileContents);
+
+    for (unsigned int i = 0; i < functions.size(); ++i)
+    {
+        stringstream temp;
+        temp << "file" << i;
+        functions.at(i).outputFile(temp.str());
+    }
 }

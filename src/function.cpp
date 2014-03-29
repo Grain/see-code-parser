@@ -9,13 +9,13 @@ Function::Function(string a, vector<string> b)
     {
         b.at(i) = trim(b.at(i));
         contents.append(b.at(i));
-        cout << b.at(i) << endl;
+//        cout << b.at(i) << endl;
     }
 
     statements = parse(0, contents.size());
     statements.statement = header;
 
-//    printNode(statements, 1);
+    printNode(statements, 1);
 }
 
 Function::Function()
@@ -28,6 +28,26 @@ Function::~Function()
     //dtor
 }
 
+void Function::outputFile(string filename)
+{
+    ofstream output(filename);
+    if (output.is_open() == true)
+    {
+        output << "{\"type\":\"function\", \"code\":\"";
+        output << statements.statement;
+        output << "\", \"inner\":[";
+        output << printList(statements.children);
+        output << "]}";
+
+        output.close();
+    }
+    else
+    {
+        //error
+    }
+}
+
+
 struct Function::node Function::parse(unsigned int start, unsigned int stop)
 {
     struct node value;
@@ -36,10 +56,15 @@ struct Function::node Function::parse(unsigned int start, unsigned int stop)
     for (unsigned int a = start; a < stop; ++a)
     {
         int controlFlow = 0;
+        bool isDo = false;
 
         if (a + 2 <= stop && contents.at(a) == 'i' && contents.at(a + 1) == 'f')    //if
         {
             controlFlow = 2;
+        }
+        else if (a + 2 <= stop && contents.at(a) == 'd' && contents.at(a + 1) == 'o')    //do
+        {
+            isDo = true;
         }
         else if (a + 3 <= stop && contents.at(a) == 'f' && contents.at(a + 1) == 'o' && contents.at(a + 2) == 'r')  //for
         {
@@ -129,6 +154,88 @@ struct Function::node Function::parse(unsigned int start, unsigned int stop)
                 a++;
             }
         }
+        else if (isDo)  //do while loop!    //similar to the other flow controls, except you have to get flow header at end
+        {
+            a++;    //since we didn't process header like the other flow controls
+
+            string flowStatement;
+            int level = 0;
+
+            int controlStart = a;
+            int controlEnd;
+            bool blockFound = false;
+            struct node newNode;
+
+            while (a < stop)    //get the size of the curly brackets block, if it exists
+            {
+                if (contents.at(a) == ';' && blockFound == false)   //no open curly bracket, just one statement
+                {
+                    controlEnd = a;
+                    string statement = trim(contents.substr(controlStart + 1, controlEnd - controlStart));
+
+                    struct node child;
+                    child.statement = statement;
+
+
+//                    newNode.statement = flowStatement;
+                    newNode.children.push_back(child);
+
+//                    value.children.push_back(newNode);
+
+//                    controlFlow = 0;
+//                    processedUpTo = a + 1;
+                    break;
+                }
+                else if (contents.at(a) == '{')
+                {
+                    if (level == 0)
+                    {
+                        controlStart = a;
+                    }
+                    level++;
+                    blockFound = true;
+                }
+                else if (contents.at(a) == '}') //found the end of the curly brackets
+                {
+                    level--;
+                    if (level == 0)
+                    {
+                        controlEnd = a;
+
+                        newNode = parse(controlStart + 1, controlEnd);
+//                        newNode.statement = flowStatement;
+
+//                        value.children.push_back(newNode);
+
+//                        controlFlow = 0;
+//                        processedUpTo = a + 1;
+                        break;
+                    }
+                }
+
+                a++;
+            }
+
+            a++;
+
+            while (a < stop)        //get the flow control header (eg. while (1);)
+            {
+                flowStatement.push_back(contents.at(a));
+
+                if (contents.at(a) == ';')
+                {
+                    flowStatement = "do " + trim(flowStatement);
+//                    cout << flowStatement << endl;
+                    newNode.statement = flowStatement;
+                    value.children.push_back(newNode);
+                    //do stuff
+                    break;
+                }
+
+                a++;
+            }
+
+        }
         else    //no control flow here! just regular statements probably
         {
             if (contents.at(a) == ';')
@@ -147,6 +254,49 @@ struct Function::node Function::parse(unsigned int start, unsigned int stop)
     }
 
     return value;
+}
+
+
+string Function::printList(vector<struct node> sequence)
+{
+    string output;
+
+    for (unsigned int i = 0; i < sequence.size(); ++i)
+    {
+        output.append("{");
+        if (sequence.at(i).children.size() > 0)
+        {
+            string type;
+            if (sequence.at(i).statement.at(0) == 'i')
+                type = "if";
+            else if (sequence.at(i).statement.at(0) == 'f')
+                type = "for";
+            else if (sequence.at(i).statement.at(0) == 'w')
+                type = "while";
+            else if (sequence.at(i).statement.at(0) == 'd')
+                type = "do";
+            output.append("\"type\":\"");
+            output.append(type);
+            output.append("\", \"code\":\"");
+            output.append(sequence.at(i).statement);
+            output.append("\", \"inner\":[");
+            output.append(printList(sequence.at(i).children));
+            output.append("]");
+        }
+        else
+        {
+            output.append("\"type\":\"statement\", \"code\":\"");
+            output.append(sequence.at(i).statement);
+            output.append("\", \"inner\":[]");
+        }
+
+
+        output.append("},");
+    }
+
+    output.erase(output.end() - 1, output.end());
+
+    return output;
 }
 
 void Function::printNode(struct node current, int level)    //just for testing and stuff
