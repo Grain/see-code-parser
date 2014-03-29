@@ -33,11 +33,11 @@ void Function::outputFile(string filename)
     ofstream output(filename);
     if (output.is_open() == true)
     {
-        output << "{\"type\":\"function\", \"code\":\"";
+        output << "var code = {\"type\":\"function\", \"code\":\"";
         output << addBackslashes(statements.statement);
         output << "\", \"inner\":[";
         output << printList(statements.children);
-        output << "]}";
+        output << "]};";
 
         output.close();
     }

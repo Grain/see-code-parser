@@ -1,0 +1,1 @@
+var code = {"type":"function", "code":"int aos_count(struct aos *a)", "inner":[{"type":"statement", "code":"int count = 0;", "inner":[]},{"type":"for", "code":"for (int i = 0; i < a->max; ++i)", "inner":[{"type":"if", "code":"if (a->strings[i] != NULL)", "inner":[{"type":"statement", "code":"count++;", "inner":[]}]}]},{"type":"statement", "code":"return count;", "inner":[]}]};

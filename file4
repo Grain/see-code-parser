@@ -1,0 +1,1 @@
+var code = {"type":"function", "code":"char *aos_get(struct aos *a, int i)", "inner":[{"type":"if", "code":"if (i < 0 || i >= a->max)", "inner":[{"type":"statement", "code":"return NULL;", "inner":[]}]},{"type":"statement", "code":"return a->strings[i];", "inner":[]}]};

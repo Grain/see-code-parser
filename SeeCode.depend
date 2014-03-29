@@ -19,10 +19,13 @@
 	<cctype>
 	"function.h"
 
-1396093850 source:e:\seecode\main.cpp
+1396102361 source:e:\seecode\main.cpp
 	<iostream>
 	<fstream>
 	<vector>
 	<cctype>
+	"function.h"
+
+1396101967 source:e:\seecode\src\function.cpp
 	"function.h"
 

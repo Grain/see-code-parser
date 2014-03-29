@@ -4,8 +4,6 @@
 #include <cctype>
 #include "function.h"
 
-//COMMENTED OUT { } WILL MESS THIS UP
-
 using namespace std;
 
 vector<string> readFile(char * filename)
