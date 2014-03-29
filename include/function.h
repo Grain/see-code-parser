@@ -2,9 +2,9 @@
 #define FUNCTION_H
 
 #include <vector>
-#include <list>
 #include <iostream>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
@@ -16,19 +16,21 @@ class Function
         virtual ~Function();
     protected:
     private:
-        struct node parse(int, int);
-
-        string header;
-        vector<string> contents;
-
         struct node
         {
             string statement;
-            list<struct node> children;
-            int amountChildren;
+            vector<struct node> children;
         };
 
-        list<struct node> statements;
+        struct node parse(unsigned int, unsigned int);
+        string getStatement(unsigned int, unsigned int, unsigned int, unsigned int);
+        int isStatement(unsigned int *, unsigned int *);
+        void printNode(struct node);
+        string trim(string);
+
+        string header;
+        vector<string> contents;
+        struct node statements;
 };
 
 #endif // FUNCTION_H

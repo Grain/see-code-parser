@@ -32,10 +32,32 @@ divide
 int main()
 {
 	int i = 1;
+
+	if (i == 2)
+		printf("no block!");
 	
 	if (i == 1)
 	{
 		printf("Test\n");
+		printf("Test\n");
+		printf("Test\n");
+		printf("Test\n");
+		printf("Test\n");
+		printf("Test\n");
+		printf("Test\n");	
+		
+		
+		
+		if (i == 1)
+	{
+		printf("Test\n");
+		printf("Test\n");
+		printf("Test\n");
+		printf("Test\n");
+		printf("Test\n");
+		printf("Test\n");
+		printf("Test\n");
+	}
 	}
 	
 	return 0;			}
