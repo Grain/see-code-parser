@@ -55,18 +55,18 @@ struct Function::node Function::parse(unsigned int start, unsigned int stop)
 
     for (unsigned int a = start; a < stop; ++a)
     {
-        int controlFlow = 0;
+        int controlFlow = 0;    //the number for this realy doesnt matter except 0, !=0, and 12
         bool isDo = false;
 
-        if (a + 2 <= stop && contents.at(a) == 'i' && contents.at(a + 1) == 'f')    //if
+        if (a + 3 <= stop && contents.at(a) == 'i' && contents.at(a + 1) == 'f' && contents.at(a + 2) == ' ')    //if
         {
             controlFlow = 2;
         }
-        else if (a + 2 <= stop && contents.at(a) == 'd' && contents.at(a + 1) == 'o')    //do
+        else if (a + 3 <= stop && contents.at(a) == 'd' && contents.at(a + 1) == 'o' && contents.at(a + 2) == ' ')    //do
         {
             isDo = true;
         }
-        else if (a + 3 <= stop && contents.at(a) == 'f' && contents.at(a + 1) == 'o' && contents.at(a + 2) == 'r')  //for
+        else if (a + 4 <= stop && contents.at(a) == 'f' && contents.at(a + 1) == 'o' && contents.at(a + 2) == 'r' && contents.at(a + 3) == ' ')  //for
         {
             controlFlow = 3;
         }
@@ -74,11 +74,11 @@ struct Function::node Function::parse(unsigned int start, unsigned int stop)
         {
             controlFlow = 6;
         }
-        else if (a + 4 <= stop && contents.at(a) == 'e' && contents.at(a + 1) == 'l' && contents.at(a + 2) == 's' && contents.at(a + 3) == 'e')  //else
+        else if (a + 5 <= stop && contents.at(a) == 'e' && contents.at(a + 1) == 'l' && contents.at(a + 2) == 's' && contents.at(a + 3) == 'e' && contents.at(a + 4) == ' ')  //else
         {
             controlFlow = 12;
         }
-        else if (a + 5 <= stop && contents.at(a) == 'w' && contents.at(a + 1) == 'h' && contents.at(a + 2) == 'i' && contents.at(a + 3 == 'l' && contents.at(a + 4) == 'e')) //while
+        else if (a + 6 <= stop && contents.at(a) == 'w' && contents.at(a + 1) == 'h' && contents.at(a + 2) == 'i' && contents.at(a + 3 == 'l' && contents.at(a + 4) == 'e') && contents.at(a + 5) == ' ') //while
         {
             controlFlow = 4;
         }
@@ -108,11 +108,9 @@ struct Function::node Function::parse(unsigned int start, unsigned int stop)
                             controlFlow = 0;
                         }
                     }
-
                     a++;
                 }
             }
-
 
 //            cout << flowStatement << endl;
 
@@ -244,7 +242,6 @@ struct Function::node Function::parse(unsigned int start, unsigned int stop)
 //                    cout << flowStatement << endl;
                     newNode.statement = flowStatement;
                     value.children.push_back(newNode);
-                    //do stuff
                     break;
                 }
 

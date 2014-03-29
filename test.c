@@ -1,115 +1,127 @@
-#include "aos.h"
-#include <string.h>
-#include <stdlib.h>
+#include "atree.h"
 #include <assert.h>
+#include <stdlib.h>
 
-char * my_strdup(const char * s)
+const int EMPTY = INT_MIN;
+
+// expt(x, n) returns the value of x^n
+// PRE: n > 0
+// POST: returns an integer
+// TIME: O(n), where n = n
+int expt(int x, int n)
 {
-    char * new = malloc(sizeof(char) * (strlen(s) + 1));
-    strcpy(new, s);
-    return new;
+	assert(n > 0);
+
+	int value = x;
+
+	for (int i = 1; i < n; ++i)
+	{
+		value *= x;
+	}
+
+	return value;
 }
 
-struct aos *create_aos(int max)
+// refer to interface
+struct atree *create_atree(int maxheight)
 {
-	struct aos * new = malloc(sizeof(struct aos));
-	new->strings = malloc(sizeof(char *) * max);
-	new->max = max;
+	assert(maxheight >= 1);
 
-	for (int i = 0; i < max; ++i)
+	struct atree * new = malloc(sizeof(struct atree));
+	new->maxheight = maxheight;
+
+	int size = expt(2, maxheight);
+
+	new->data = malloc(sizeof(int) * size);
+
+	for (int i = 0; i < size; ++i)
 	{
-		new->strings[i] = NULL;
+		new->data[i] = EMPTY;
 	}
 
 	return new;
 }
 
-void destroy_aos(struct aos *a)
+// refer to interface
+void destroy_atree(struct atree *at)
 {
-	for (int i = 0; i < a->max; ++i)
-    {
-        if (a->strings[i] != NULL)
-        {
-            free(a->strings[i]);
-        }
-    }
-
-    free(a->strings);
-    free(a);
+	free(at->data);
+	free(at);
 }
 
-int aos_count(struct aos *a)
+// refer to interface
+void atree_add(struct atree *at, int i)
 {
-	int count = 0;
+	assert(at != NULL);
+	assert(i != EMPTY);
 
-	for (int i = 0; i < a->max; ++i)
+	int current = 0;
+	int max = expt(2, at->maxheight) - 1;
+
+	while (true)
 	{
-		if (a->strings[i] != NULL)
+		if (current >= max)	//resize and spot found
 		{
-			count++;
-		}
-	}
+			at->maxheight++;
+			at->data = realloc(at->data, sizeof(int) * (max + 1) * 2);
 
-	return count;
-}
-
-char *aos_get(struct aos *a, int i)
-{
-	if (i < 0 || i >= a->max)
-		return NULL;
-	return a->strings[i];
-}
-
-void aos_set(struct aos *a, const char *s, int i)
-{
-    if (a->strings[i] != NULL)
-        free(a->strings[i]);
-
-    if (s == NULL)
-        a->strings[i] = NULL;
-    else
-    {
-        a->strings[i] = my_strdup(s);
-    }
-}
-
-int aos_add(struct aos *a, const char *s)
-{
-    assert(s != NULL);
-
-	for (int i = 0; i < a->max; ++i)
-	{
-		if (a->strings[i] == NULL)
-		{
-			if (s == NULL)
-				a->strings[i] = NULL;
-			else
+			for (int a = max; a < (max + 1) * 2; ++a)
 			{
-				a->strings[i] = my_strdup(s);
+				at->data[a] = EMPTY;
 			}
-			return i;
+
+			at->data[current] = i;
+			return;
+		}
+
+		if (at->data[current] == EMPTY)	//empty spot for i found
+		{
+			at->data[current] = i;
+			return;
+		}
+
+		if (i == at->data[current])	//i already in at
+		{
+			return;
+		}
+		else if (i < at->data[current])
+		{
+			current = 2 * current + 1;
+		}
+		else if (i > at->data[current])
+		{
+			current = 2 * current + 2;
 		}
 	}
 
-	return -1;
 }
 
-void aos_sort(struct aos *a)
+// refer to interface
+bool atree_search(struct atree *at, int i)
 {
-    for (int i = 0; i < a->max - 1; ++i)
-    {
-        int min = i;
-        for (int j = i + 1; j < a->max; ++j)
-        {
-            if (a->strings[j] != NULL && (a->strings[min] == NULL || strcmp(a->strings[j], a->strings[min]) < 0))
-            {
-                min = j;
-            }
-        }
+	assert(at != NULL);
+	assert(i != EMPTY);
 
-        char * temp = a->strings[min];
-        a->strings[min] = a->strings[i];
-        a->strings[i] = temp;
-    }
+	int current = 0;
+	int max = expt(2, at->maxheight);
+
+	while (current < max && at->data[current] != EMPTY)
+	{
+		if (i == at->data[current])
+		{
+			return true;
+		}
+		else if (i < at->data[current])
+		{
+			current = 2 * current + 1;
+		}
+		else
+		{
+			current = 2 * current + 2;
+		}
+	}
+
+	return false;
 }
+
 

@@ -204,7 +204,7 @@ vector<Function> makeFunctions(vector<string> fileContents)
     return functions;
 }
 
-vector<string> removeComments(vector<string> fileContents)
+vector<string> removeComments(vector<string> fileContents)  //this code is pretty buggy
 {
     for (unsigned int a = 0; a < fileContents.size(); ++a)
     {
@@ -213,7 +213,10 @@ vector<string> removeComments(vector<string> fileContents)
             if (fileContents.at(a).at(b) == '/' && fileContents.at(a).at(b + 1) == '/')
             {
                 if (b == 0)
+                {
                     fileContents.erase(fileContents.begin() + a);
+                    a--;
+                }
                 else
                     fileContents.at(a).erase(b);
             }
@@ -232,8 +235,6 @@ vector<string> removeComments(vector<string> fileContents)
                     {
                         if (fileContents.at(c).at(d) == '*' && fileContents.at(c).at(d + 1) == '/') //found end
                         {
-                            if (b != 0)
-                                fileContents.at(a).erase(fileContents.at(a).begin() + b, fileContents.at(a).end());
                             if (a != c)
                             {
                                 if (d + 2 != fileContents.at(c).size())
@@ -246,6 +247,10 @@ vector<string> removeComments(vector<string> fileContents)
                                     fileContents.erase(fileContents.begin() + a + 1, fileContents.begin() + c);
                                 fileContents.erase(fileContents.begin() + a + 1, fileContents.begin() + c - 1);
                             }
+                            if (b != 0)
+                                fileContents.at(a).erase(b);
+                            else
+                                fileContents.erase(fileContents.begin() + a);
                             goto outside;
                         }
                     }
