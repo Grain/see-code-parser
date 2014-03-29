@@ -34,7 +34,7 @@ void Function::outputFile(string filename)
     if (output.is_open() == true)
     {
         output << "{\"type\":\"function\", \"code\":\"";
-        output << statements.statement;
+        output << addBackslashes(statements.statement);
         output << "\", \"inner\":[";
         output << printList(statements.children);
         output << "]}";
@@ -298,7 +298,7 @@ string Function::printList(vector<struct node> sequence)    //to JSON
             output.append("\"type\":\"");
             output.append(type);
             output.append("\", \"code\":\"");
-            output.append(sequence.at(i).statement);
+            output.append(addBackslashes(sequence.at(i).statement));
             output.append("\", \"inner\":[");
             output.append(printList(sequence.at(i).children));
             output.append("]");
@@ -306,7 +306,7 @@ string Function::printList(vector<struct node> sequence)    //to JSON
         else
         {
             output.append("\"type\":\"statement\", \"code\":\"");
-            output.append(sequence.at(i).statement);
+            output.append(addBackslashes(sequence.at(i).statement));
             output.append("\", \"inner\":[]");
         }
 
@@ -347,5 +347,19 @@ string Function::trim(string input)
    p = input.find_last_not_of(" \n\r\t");
    if (string::npos != p)
       input.erase(p + 1);
+    return input;
+}
+
+string Function::addBackslashes(string input)
+{
+    for (unsigned int i = 0; i < input.size(); ++i)
+    {
+        if (input.at(i) == '\\' || input.at(i) == '\"' || input.at(i) == '\'')
+        {
+            input.insert(input.begin() + i, '\\');
+            i++;
+        }
+    }
+
     return input;
 }

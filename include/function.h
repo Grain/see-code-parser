@@ -29,6 +29,7 @@ class Function
         string printList(vector<struct node>);
         void printNode(struct node, int);
         string trim(string);
+        string addBackslashes(string);
 
         string header;
         string contents;
