@@ -11,6 +11,7 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
+				<Option parameters="test.c" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -31,7 +32,12 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add option="-ljansson" />
+			<Add directory="D:/jansson-2.5/src" />
 		</Compiler>
+		<Linker>
+			<Add directory="D:/jansson-2.5/src/.libs" />
+		</Linker>
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
