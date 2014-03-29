@@ -149,7 +149,7 @@ struct Function::node Function::parse(unsigned int start, unsigned int stop)
     return value;
 }
 
-void Function::printNode(struct node current, int level)
+void Function::printNode(struct node current, int level)    //just for testing and stuff
 {
     for (int i = 1; i < level; ++i)
         cout << '\t';
